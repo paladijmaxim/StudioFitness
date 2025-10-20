@@ -6,14 +6,13 @@ from django.db import models
 
 class User(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    second_name = models.CharField(max_length=100, verbose_name="Second Name")
     gender = models.CharField(max_length=1, verbose_name="Gender")
     age = models.IntegerField(verbose_name="Age", null=True, blank=True)
     phone = models.CharField(max_length=20, verbose_name="Phone")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Created at")
 
     def __str__(self):
-        return f"{self.first_name} {self.second_name}"
+        return f"{self.first_name} {self.last_name}"
 
 class Tariff(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -80,7 +79,12 @@ class Trainer(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     full_name = models.CharField(max_length=150, verbose_name="Full Name")
     experience = models.CharField(max_length=150, verbose_name="Experience")
-    photo = models.JSONField(null=True, verbose_name="Photo")
+    photo = models.ImageField(
+        upload_to='trainers/',
+        verbose_name="Photo",
+        null=True,
+        blank=True,
+    )
     speciality = models.CharField(max_length=100, verbose_name="Speciality")
 
     def __str__(self):
@@ -119,8 +123,8 @@ class Booking(models.Model):
 
 class Trainer_club(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    club_id = models.ForeignKey(Club, on_delete=models.CASCADE)
-    trainer_id = models.ForeignKey(Trainer, on_delete=models.CASCADE)
+    club_id = models.ForeignKey(Club, on_delete=models.CASCADE, related_name='trainer_clubs')
+    trainer_id = models.ForeignKey(Trainer, on_delete=models.CASCADE, related_name='trainer_clubs')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Created at")
     is_active = models.BooleanField(default=True, verbose_name="Is active?")
 
