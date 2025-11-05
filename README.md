@@ -20,6 +20,7 @@
 ## Установка и запуск
   Клонирование репозитория
    git clone <repository-url>
+   
    cd StudioFitness 
 
 ## Установка зависимостей
