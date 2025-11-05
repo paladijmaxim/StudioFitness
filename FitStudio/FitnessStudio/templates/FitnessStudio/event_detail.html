@@ -1,0 +1,96 @@
+{% extends "FitnessStudio/base.html" %}
+
+{% block title %}{{ event.class_id.title }} - Fitness Studio{% endblock %}
+
+{% block content %}
+<div class="event-detail-container">
+    <div class="event-header">
+        <h2>{{ event.class_id.title }}</h2>
+        <div class="event-actions">
+            <a href="{% url 'event_list' %}" class="btn btn-secondary">Назад к списку</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'event_edit' event.id %}" class="btn btn-edit">Редактировать</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="event-content">
+        <div class="event-info-card">
+            <h3>Информация о занятии</h3>
+            <div class="info-grid">
+                <div class="info-item">
+                    <strong>Категория:</strong>
+                    <span>{{ event.class_id.category }}</span>
+                </div>
+                <div class="info-item">
+                    <strong>Продолжительность:</strong>
+                    <span>{{ event.class_id.duration_minutes }} минут</span>
+                </div>
+                <div class="info-item">
+                    <strong>Уровень сложности:</strong>
+                    <span>{{ event.class_id.level }}/10</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="event-info-card">
+            <h3>Тренер</h3>
+            <div class="trainer-info">
+                {% if event.trainer_id.photo %}
+                    <img src="{{ event.trainer_id.photo.url }}" alt="{{ event.trainer_id.full_name }}" class="trainer-photo-large">
+                {% endif %}
+                <div class="trainer-details">
+                    <h4>{{ event.trainer_id.full_name }}</h4>
+                    <p><strong>Специализация:</strong> {{ event.trainer_id.speciality }}</p>
+                    <p><strong>Опыт:</strong> {{ event.trainer_id.experience }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="event-info-card">
+            <h3>Место и время</h3>
+            <div class="info-grid">
+                <div class="info-item">
+                    <strong>Клуб:</strong>
+                    <span>{{ event.club_id.name }}</span>
+                </div>
+                <div class="info-item">
+                    <strong>Адрес:</strong>
+                    <span>{{ event.club_id.address }}</span>
+                </div>
+                <div class="info-item">
+                    <strong>Телефон:</strong>
+                    <span>{{ event.club_id.phone }}</span>
+                </div>
+                <div class="info-item">
+                    <strong>Дата и время:</strong>
+                    <span>{{ event.start_at|date:"d.m.Y H:i" }} - {{ event.end_at|date:"H:i" }}</span>
+                </div>
+                <div class="info-item">
+                    <strong>Статус:</strong>
+                    <span class="status-badge status-{{ event.status }}">
+                        {{ event.get_status_display }}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        {% if event.description %}
+        <div class="event-info-card">
+            <h3>Описание</h3>
+            <p>{{ event.description }}</p>
+        </div>
+        {% endif %}
+
+        <div class="event-info-card">
+            <h3>Статистика</h3>
+            <div class="info-grid">
+                <div class="info-item">
+                    <strong>Записано участников:</strong>
+                    <span>{{ event.booked_count }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

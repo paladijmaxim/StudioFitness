@@ -1,0 +1,27 @@
+{% extends "FitnessStudio/base.html" %}
+
+{% block title %}Удаление события - Fitness Studio{% endblock %}
+
+{% block content %}
+<div class="delete-container">
+    <h2>Удаление события</h2>
+
+    <div class="confirmation-message">
+        <p>Вы уверены, что хотите удалить событие?</p>
+        <div class="event-info">
+            <strong>{{ event.class_id.title }}</strong><br>
+            Тренер: {{ event.trainer_id.full_name }}<br>
+            Дата: {{ event.start_at|date:"d.m.Y H:i" }}<br>
+            Клуб: {{ event.club_id.name }}
+        </div>
+    </div>
+
+    <form method="post" class="delete-form">
+        {% csrf_token %}
+        <div class="form-actions">
+            <button type="submit" class="btn btn-danger">Да, удалить</button>
+            <a href="{% url 'event_list' %}" class="btn btn-secondary">Отмена</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

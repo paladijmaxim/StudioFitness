@@ -1,0 +1,132 @@
+{% extends "FitnessStudio/base.html" %}
+
+{% block title %}Главная страница - Fitness Studio{% endblock %}
+
+{% block content %}
+    <section class="hero">
+        <h2>Добро пожаловать в Fitness Studio!</h2>
+        <p>Ваш фитнес-центр с лучшими тренерами и оборудованием</p>
+    </section>
+
+    <section class="section">
+        <h3>Ближайшие занятия</h3>
+        {% if latest_events %}
+            <ul class="events-list">
+                {% for event in latest_events %}
+                <li class="event-item">
+                    <div class="event-title">{{ event.class_id.title }}</div>
+                    <div class="event-details">
+                        Тренер: {{ event.trainer_id.full_name }}<br>
+                        {{ event.start_at|date:"d.m.Y H:i" }}<br>
+                        {{ event.club_id.name }}
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="empty-message">
+                На данный момент занятий нет. Следите за обновлениями!
+            </div>
+        {% endif %}
+    </section>
+
+    <section class="section">
+        <h3>Популярные направления</h3>
+        {% if popular_categories %}
+            <ul class="categories-list">
+                {% for category in popular_categories %}
+                <li class="category-item">
+                    <div class="event-title">{{ category.title }}</div>
+                    <div class="event-details">
+                        Продолжительность: {{ category.avg_duration }} мин.<br>
+                        Уровень: {{ category.avg_level }}/10<br>
+                        Занятий в расписании: {{ category.event_count }}
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </section>
+
+    <section class="section">
+        <h3>Наши клубы</h3>
+        {% if clubs %}
+            <ul class="clubs-list">
+                {% for club in clubs %}
+                <li class="club-item">
+                    <div class="event-title">{{ club.name }}</div>
+                    <div class="event-details">
+                        {{ club.address }}<br>
+                        {{ club.phone }}<br>
+                        {{ club.working_hours }}<br>
+                        Удобства: {{ club.amenities }}
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="empty-message">
+                Информация о клубах временно недоступна
+            </div>
+        {% endif %}
+    </section>
+
+    <section class="section">
+        <h3>Наши тарифы</h3>
+        {% if active_tariffs %}
+            <ul class="tariffs-list">
+                {% for tariff in active_tariffs %}
+                <li class="tariff-item">
+                    <div class="event-title">{{ tariff.name }}</div>
+                    <div class="event-details">
+                        {{ tariff.price_per_month }} руб./месяц<br>
+                        Активных абонементов: {{ tariff.active_memberships_count }}
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </section>
+
+    <section class="section">
+        <h3>Тренерский состав</h3>
+        {% if trainers %}
+            <ul class="trainer-list">
+                {% for trainer in trainers %}
+                <li class="trainer-list-p">
+                    {% if trainer.photo %}
+                    <img src="{{ trainer.photo.url }}" alt="Фото {{ trainer.full_name }}" class="trainer-photo">
+                    {% endif %}
+                    <div class="event-title">{{ trainer.full_name }}</div>
+                    <div class="event-details">
+                        Специализация: {{ trainer.speciality }}<br>
+                        Опыт: {{ trainer.experience }}
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </section>
+
+    <section class="section">
+        <h3>Fitness Studio в цифрах</h3>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number">{{ total_members }}</div>
+                <div class="stat-label">Активных клиентов</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">{{ total_trainers }}</div>
+                <div class="stat-label">Профессиональных тренеров</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">{{ total_classes }}</div>
+                <div class="stat-label">Проведенных занятий</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">{{ clubs_count }}</div>
+                <div class="stat-label">Фитнес-клубов</div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -2,7 +2,6 @@ from django.contrib import admin
 from django.utils.html import mark_safe
 from .models import User, Tariff, Club, UserMembership, Payment, Class, Trainer, Event, Booking, Trainer_club
 
-# INLINES
 class UserMembershipInline(admin.TabularInline):
     model = UserMembership
     extra = 1
@@ -36,8 +35,6 @@ class EventInline(admin.TabularInline):
     classes = ('collapse',)
     raw_id_fields = ('class_id', 'trainer_id')
     readonly_fields = ('booked_count',)
-
-
 
 
 @admin.register(User)
