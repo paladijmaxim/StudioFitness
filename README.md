@@ -19,7 +19,7 @@
 
 ## Установка и запуск
   Клонирование репозитория
-   git clone <repository-url>
+   git clone url репозитория
    
    cd StudioFitness 
 
