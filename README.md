@@ -19,9 +19,8 @@
 
 ## Установка и запуск
   Клонирование репозитория
-   ```bash
    git clone <repository-url>
-   cd StudioFitness
+   cd StudioFitness 
 
 ## Установка зависимостей
    pip install django
